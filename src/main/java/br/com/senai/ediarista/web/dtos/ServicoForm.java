@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SerciForm {
+public class ServicoForm {
     
     @NotNull
     @Size(min = 3, max = 50)
