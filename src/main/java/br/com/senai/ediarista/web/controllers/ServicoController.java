@@ -55,6 +55,26 @@ public class ServicoController {
         return "redirect:/admin/servicos/cadastrar";
     }
 
+    //Editar
+    @GetMapping("/{id}/editar")
+    public ModelAndView editar(@PathVariable Long id){
+       var modelAndView = new ModelAndView("admin/servicos/form");
+
+       modelAndView.addObject("servico", repository.getById(id));
+       
+       return modelAndView;
+    }
+
+    //recebe pelo metodo post o metodo editar
+    @PostMapping("/{id}/editar")
+    public String editar(@PathVariable Long id, Servico servico){
+        
+        repository.save(servico);
+
+        return "redirect:/admin/servicos";
+    }
+
+
 
     //Excluir
     @GetMapping("/{id}/excluir")
