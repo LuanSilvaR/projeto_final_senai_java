@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.senai.ediarista.core.enums.Icone;
+import br.com.senai.ediarista.web.dtos.FlashMessage;
 import br.com.senai.ediarista.web.dtos.ServicoForm;
 import br.com.senai.ediarista.web.services.WebServicoService;
 
@@ -50,13 +52,13 @@ public class ServicoController {
 
     //recebe pelo metodo post o metodo cadastrar
     @PostMapping("/cadastrar")
-    public String cadastrar(@Valid @ModelAttribute("form")  ServicoForm form, BindingResult result){
+    public String cadastrar(@Valid @ModelAttribute("form")  ServicoForm form, BindingResult result, RedirectAttributes attrs){
         
         if (result.hasErrors()){
             return "admin/servicos/form" ;
         }
         service.cadastrar(form);
-
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço cadastrado com sucesso!"));
         return "redirect:/admin/servicos/cadastrar";
     }
 
@@ -72,13 +74,13 @@ public class ServicoController {
 
     //recebe pelo metodo post o metodo editar
     @PostMapping("/{id}/editar")
-    public String editar(@PathVariable Long id,@Valid @ModelAttribute("form") ServicoForm form, BindingResult result){
+    public String editar(@PathVariable Long id,@Valid @ModelAttribute("form") ServicoForm form, BindingResult result, RedirectAttributes attrs){
         if(result.hasErrors()){
             return "admin/servicos/form";
         }
         
         service.editar(form, id);
-
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço editado com sucesso!"));
         return "redirect:/admin/servicos";
     }
 
@@ -86,11 +88,12 @@ public class ServicoController {
 
     //Excluir
     @GetMapping("/{id}/excluir")
-    public String excluir(@PathVariable Long id){
+    public String excluir(@PathVariable Long id, RedirectAttributes attrs){
 
-       service.excluirPorId(id);
-
+        service.excluirPorId(id);
+        attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço excluido com sucesso!"));
         return "redirect:/admin/servicos";
+        
     }
 
     //gera a lista de icones enum
