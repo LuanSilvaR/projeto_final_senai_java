@@ -59,7 +59,7 @@ public class ServicoController {
         }
         service.cadastrar(form);
         attrs.addFlashAttribute("alert", new FlashMessage("alert-success", "Serviço cadastrado com sucesso!"));
-        return "redirect:/admin/servicos/cadastrar";
+        return "redirect:/admin/servicos";
     }
 
     //Editar
